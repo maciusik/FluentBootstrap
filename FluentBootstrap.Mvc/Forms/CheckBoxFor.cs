@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Linq.Expressions;
-using System.Web.Mvc;
-using System.Web.Mvc.Html;
+using FluentBootstrap.Internals;
 using FluentBootstrap.Mvc.Internals;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace FluentBootstrap.Mvc.Forms
 {
@@ -24,12 +24,12 @@ namespace FluentBootstrap.Mvc.Forms
         {
             base.OnStart(writer);
 
-            ModelMetadata metadata = ModelMetadata.FromLambdaExpression(_expression, this.GetHtmlHelper<TModel>().ViewData);
-            string expressionText = ExpressionHelper.GetExpressionText(_expression);
+            ModelExpression modelExpression = this.GetHtmlHelper<TModel>().FromLambdaExpression(_expression);
+            string expressionText = this.GetHtmlHelper<TModel>().GetExpressionText(_expression);
             _name = MvcFormExtensions.GetControlName(this.GetHelper<TModel>(), expressionText);
-            string label = MvcFormExtensions.GetControlLabel(metadata, expressionText);
+            string label = MvcFormExtensions.GetControlLabel(modelExpression.Metadata, expressionText);
             bool isChecked = false;
-            if (metadata.Model == null || !bool.TryParse(metadata.Model.ToString(), out isChecked))
+            if (modelExpression.Model == null || !bool.TryParse(modelExpression.Model.ToString(), out isChecked))
             {
                 isChecked = false;
             }

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
-using System.Web.Routing;
 using FluentBootstrap.Mvc;
 using FluentBootstrap.Mvc.Internals;
 using FluentBootstrap.Breadcrumbs;
@@ -19,6 +17,8 @@ using FluentBootstrap.Paginations;
 using FluentBootstrap.Thumbnails;
 using FluentBootstrap.Forms;
 using FluentBootstrap.Images;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 
 namespace FluentBootstrap
 {

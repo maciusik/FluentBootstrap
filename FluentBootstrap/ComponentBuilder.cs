@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.Web;
+using System.Text.Encodings.Web;
+using Microsoft.AspNetCore.Html;
 
 namespace FluentBootstrap
 {
@@ -13,7 +15,7 @@ namespace FluentBootstrap
     }
 
     // TODO: ASP.NET MVC 5 doesn't use System.Web so there's no IHtmlString, instead it has it's own HtmlString class and/or HelperResult class - need to think of a way to deal with both old and new
-    public class ComponentBuilder<TConfig, TComponent> : ComponentBuilder, IHtmlString
+    public class ComponentBuilder<TConfig, TComponent> : ComponentBuilder, IHtmlContent
         where TConfig : BootstrapConfig
         where TComponent : Component
     {
@@ -79,6 +81,11 @@ namespace FluentBootstrap
         public override string ToString()
         {
             return Component.ToString();
+        }
+
+        public void WriteTo(TextWriter writer, HtmlEncoder encoder)
+        {
+            writer.Write(Component.ToString(), encoder);
         }
     }
 }

@@ -4,17 +4,18 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.Mvc;
 using FluentBootstrap.Forms;
 using FluentBootstrap.Mvc.Forms;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace FluentBootstrap.Mvc
 {
     public class MvcBootstrapConfig<TModel> : BootstrapConfig
     {
-        internal HtmlHelper<TModel> HtmlHelper { get; private set; }
+        internal IHtmlHelper<TModel> HtmlHelper { get; private set; }
 
-        public MvcBootstrapConfig(HtmlHelper<TModel> htmlHelper)
+        public MvcBootstrapConfig(IHtmlHelper<TModel> htmlHelper)
         {
             HtmlHelper = htmlHelper;
         }
@@ -37,7 +38,7 @@ namespace FluentBootstrap.Mvc
 
         protected override object GetItem(object key, object defaultValue)
         {
-            if (HtmlHelper.ViewContext.HttpContext.Items.Contains(key))
+            if (HtmlHelper.ViewContext.HttpContext.Items.ContainsKey(key))
             {
                 return HtmlHelper.ViewContext.HttpContext.Items[key];
             }

@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace FluentBootstrap
 {
@@ -195,7 +194,7 @@ namespace FluentBootstrap
 
                 // We could suppress output of the value when the value is string.Empty, but leaving it there is still valid HTML5 and works better for other standards like XHTML
                 // See https://html.spec.whatwg.org/multipage/infrastructure.html#boolean-attribute
-                string encoded = HttpUtility.HtmlAttributeEncode(attribute.Value);
+                string encoded = System.Web.HttpUtility.HtmlAttributeEncode(attribute.Value);
                 startTag.Append(" " + attribute.Key + "=\"" + encoded + "\"");
             }
             startTag.Append(">");

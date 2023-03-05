@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
+using Microsoft.AspNetCore.Html;
 
 namespace FluentBootstrap
 {
@@ -21,8 +21,8 @@ namespace FluentBootstrap
         protected override void OnStart(TextWriter writer)
         {
             base.OnStart(writer);
-            IHtmlString htmlString = _content as IHtmlString;
-            writer.Write(htmlString != null ? htmlString.ToHtmlString() : HttpUtility.HtmlEncode(_content));
+            HtmlString htmlString = _content as HtmlString;
+            writer.Write(htmlString != null ? htmlString.ToString() : System.Net.WebUtility.HtmlEncode(_content.ToString()));
         }
     }
 }

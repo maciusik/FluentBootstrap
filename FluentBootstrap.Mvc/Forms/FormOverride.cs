@@ -5,10 +5,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.Mvc;
 using System.Collections;
 using FluentBootstrap.Internals;
 using FluentBootstrap.Mvc.Internals;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace FluentBootstrap.Mvc.Forms
 {
@@ -18,10 +19,12 @@ namespace FluentBootstrap.Mvc.Forms
 
         protected override void OnStart(TextWriter writer)
         {
+            IHtmlHelper htmlHelper = this.GetHtmlHelper<TModel>();
             // Generate the form ID if one is needed (if one was already set in the htmlAttributes, this does nothing)
-            ViewContext viewContext = this.GetHtmlHelper<TModel>().ViewContext;
-            bool flag = viewContext.ClientValidationEnabled
-                && !viewContext.UnobtrusiveJavaScriptEnabled;
+            ViewContext viewContext = htmlHelper.ViewContext;
+            bool flag = viewContext.ClientValidationEnabled;
+            //TODO    
+            //&& !viewContext. .UnobtrusiveJavaScriptEnabled;
             if (flag)
             {
                 // Use a TagBuilder to generate the Id
@@ -31,7 +34,7 @@ namespace FluentBootstrap.Mvc.Forms
                 {
                     tagBuilder.MergeAttribute("id", id);
                 }
-                tagBuilder.GenerateId(FormIdGenerator());
+                tagBuilder.GenerateId(FormIdGenerator(), htmlHelper.IdAttributeDotReplacement);
                 Component.MergeAttribute("id", tagBuilder.Attributes["id"]);
             }
 
@@ -39,9 +42,11 @@ namespace FluentBootstrap.Mvc.Forms
 
             // Set a new form context, including a form ID if one was generated
             viewContext.FormContext = new FormContext();
+            
             if (flag)
             {
-                viewContext.FormContext.FormId = Component.GetAttribute("id");
+                viewContext.FormContext.FormData.Add("id", Component.GetAttribute("id"));
+                //viewContext.FormContext. = ;
             }
         }
 
@@ -59,7 +64,9 @@ namespace FluentBootstrap.Mvc.Forms
             ViewContext viewContext = this.GetHtmlHelper<TModel>().ViewContext;
             TextWriter viewWriter = viewContext.Writer;
             viewContext.Writer = writer;
-            viewContext.OutputClientValidation();
+            //TODO validation
+            
+            //viewContext.OutputClientValidation();
             viewContext.Writer = viewWriter;
 
             // Clear the form context
@@ -71,7 +78,7 @@ namespace FluentBootstrap.Mvc.Forms
         // Get and increment a form id
         private string FormIdGenerator()
         {
-            IDictionary items = this.GetHtmlHelper<TModel>().ViewContext.HttpContext.Items;
+            IDictionary<object,object> items = this.GetHtmlHelper<TModel>().ViewContext.HttpContext.Items;
             object item = items[_lastBootstrapFormNumKey];
             int num = (item != null ? (int)item + 1 : 0);
             items[_lastBootstrapFormNumKey] = num;

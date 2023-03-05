@@ -7,9 +7,9 @@ using System.Web.Mvc;
 
 namespace FluentBootstrap.Tests.Web.Controllers
 {
-    public class MvcTestsController : Controller
+    public class MvcTestsController : Microsoft.AspNetCore.Mvc.Controller
     {
-        public virtual ActionResult MvcTests(string view)
+        public virtual Microsoft.AspNetCore.Mvc.ActionResult MvcTests(string view)
         {
             ViewModel model = new ViewModel
             {

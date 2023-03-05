@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Web.Mvc;
-using System.Web.Routing;
-using System.Web.WebPages;
 using FluentBootstrap.Breadcrumbs;
 using FluentBootstrap.Buttons;
 using FluentBootstrap.Dropdowns;
@@ -19,6 +16,13 @@ using FluentBootstrap.Navs;
 using FluentBootstrap.Pagers;
 using FluentBootstrap.Paginations;
 using FluentBootstrap.Thumbnails;
+using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 
 namespace FluentBootstrap
 {
@@ -30,7 +34,7 @@ namespace FluentBootstrap
             where TConfig : BootstrapConfig
             where TTag : Tag
         {
-            builder.GetComponent().AddChild(builder.GetHelper().Content(content(null).ToHtmlString()).GetComponent());
+            builder.GetComponent().AddChild(builder.GetHelper().Content(content(null).ToString()).GetComponent());
             return builder;
         }
 
@@ -54,8 +58,10 @@ namespace FluentBootstrap
             {
                 routeValueDictionary = new RouteValueDictionary(routeValues);
             }
-            builder.SetHref(UrlHelper.GenerateUrl(null, actionName, controllerName, routeValueDictionary,
-                builder.GetConfig().HtmlHelper.RouteCollection, builder.GetConfig().HtmlHelper.ViewContext.RequestContext, true));
+
+            
+
+            builder.SetHref(builder.GetConfig().HtmlHelper.GenerateUrl(actionName, controllerName, routeValueDictionary));
             return builder;
         }
 
@@ -68,8 +74,7 @@ namespace FluentBootstrap
             {
                 routeValueDictionary = new RouteValueDictionary(routeValues);
             }
-            builder.SetHref(UrlHelper.GenerateUrl(routeName, null, null, routeValueDictionary,
-                builder.GetConfig().HtmlHelper.RouteCollection, builder.GetConfig().HtmlHelper.ViewContext.RequestContext, false));
+            builder.SetHref(builder.GetConfig().HtmlHelper.GenerateUrl(routeName, routeValueDictionary));
             return builder;
         }
 
@@ -242,7 +247,9 @@ namespace FluentBootstrap
         {
             ComponentBuilder<MvcBootstrapConfig<TModel>, Typography.List> builder =
                 new ComponentBuilder<MvcBootstrapConfig<TModel>, Typography.List>(helper.GetConfig(), helper.List(listType).GetComponent());
-            IEnumerable<TValue> values = ModelMetadata.FromLambdaExpression(expression, builder.GetConfig().HtmlHelper.ViewData).Model as IEnumerable<TValue>;
+
+
+            IEnumerable<TValue> values = builder.GetConfig().HtmlHelper.FromLambdaExpression(expression).Model as IEnumerable<TValue>;
             if (values != null)
             {
                 foreach (TValue value in values)

@@ -11,11 +11,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Mvc.Html;
 using FluentBootstrap.Html;
-
+using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Mvc.Rendering;
 namespace FluentBootstrap.Mvc.Forms
 {
     public class FormControlListFor<TModel, TValue> : FormControlForBase<TModel, IEnumerable<TValue>>
@@ -31,7 +29,7 @@ namespace FluentBootstrap.Mvc.Forms
         protected override void WriteDisplay(TextWriter writer)
         {
             // Get the values
-            IEnumerable<TValue> values = ModelMetadata.FromLambdaExpression(Expression, this.GetHtmlHelper<TModel>().ViewData).Model as IEnumerable<TValue>;
+            IEnumerable<TValue> values = this.GetHtmlHelper<TModel>().FromLambdaExpression(Expression).Model as IEnumerable<TValue>;
             if (values == null)
             {
                 base.WriteDisplay(writer);
@@ -52,7 +50,7 @@ namespace FluentBootstrap.Mvc.Forms
         protected override void WriteEditor(TextWriter writer)
         {
             // Get the values
-            IEnumerable<TValue> values = ModelMetadata.FromLambdaExpression(Expression, this.GetHtmlHelper<TModel>().ViewData).Model as IEnumerable<TValue>;
+            IEnumerable<TValue> values = this.GetHtmlHelper<TModel>().FromLambdaExpression(Expression).Model as IEnumerable<TValue>;
             if (values == null)
             {
                 base.WriteEditor(writer);

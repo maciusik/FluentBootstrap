@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
+using Microsoft.AspNetCore.Html;
 
 namespace FluentBootstrap
 {
@@ -97,16 +97,16 @@ namespace FluentBootstrap
 
                 // Now check if it's an IHtmlString
                 string str;
-                IHtmlString htmlString = content as IHtmlString;
+                HtmlString htmlString = content as HtmlString;
                 if (htmlString != null)
                 {
-                    str = htmlString.ToHtmlString();
+                    str = htmlString.ToString();
                 }
                 else
                 {
                     // Just convert to a string using the standard conversion logic
                     str = Convert.ToString(content, CultureInfo.InvariantCulture);
-                    str = HttpUtility.HtmlEncode(str);
+                    str = System.Web.HttpUtility.HtmlEncode(str);
                 }
 
                 if (!string.IsNullOrEmpty(str))
@@ -133,16 +133,16 @@ namespace FluentBootstrap
 
                 // Now check if it's an IHtmlString
                 string str;
-                IHtmlString htmlString = content as IHtmlString;
+                HtmlString htmlString = content as HtmlString;
                 if (htmlString != null)
                 {
-                    str = htmlString.ToHtmlString();
+                    str = htmlString.ToString();
                 }
                 else
                 {
                     // Just convert to a string using the standard conversion logic
                     str = Convert.ToString(content, CultureInfo.InvariantCulture);
-                    str = HttpUtility.HtmlEncode(str);
+                    str = System.Web.HttpUtility.HtmlEncode(str);
                 }
 
                 if (!string.IsNullOrEmpty(str))

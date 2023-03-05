@@ -8,11 +8,11 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.Mvc;
-using System.Web.Mvc.Html;
 using FluentBootstrap.Html;
 using FluentBootstrap.Forms;
 using FluentBootstrap.Mvc.Internals;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace FluentBootstrap.Mvc.Forms
 {
@@ -70,7 +70,7 @@ namespace FluentBootstrap.Mvc.Forms
             // Add the description text if requested
             if (AddDescription)
             {
-                ModelMetadata metadata = ModelMetadata.FromLambdaExpression(Expression, this.GetHtmlHelper<TModel>().ViewData);
+                ModelMetadata metadata = this.GetHtmlHelper<TModel>().FromLambdaExpression(Expression).Metadata;
                 if (!string.IsNullOrWhiteSpace(metadata.Description))
                 {
                     Element element = GetHelper().Element("p").AddCss(Css.HelpBlock).GetComponent();

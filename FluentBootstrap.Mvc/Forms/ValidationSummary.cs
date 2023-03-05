@@ -5,9 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.Mvc;
-using System.Web.Mvc.Html;
 using FluentBootstrap.Mvc.Internals;
+using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace FluentBootstrap.Mvc.Forms
 {
@@ -25,7 +25,7 @@ namespace FluentBootstrap.Mvc.Forms
             base.OnStart(writer);
 
             // Output the summary
-            MvcHtmlString validationSummary = this.GetHtmlHelper<TModel>().ValidationSummary(!IncludePropertyErrors);
+            IHtmlContent validationSummary = this.GetHtmlHelper<TModel>().ValidationSummary(!IncludePropertyErrors);
             if (validationSummary != null)
             {
                 writer.Write(validationSummary.ToString());

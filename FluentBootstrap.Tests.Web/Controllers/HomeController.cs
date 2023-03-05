@@ -6,9 +6,9 @@ using System.Web.Mvc;
 
 namespace FluentBootstrap.Tests.Web.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : Microsoft.AspNetCore.Mvc.Controller
     {
-        public virtual ActionResult Index()
+        public virtual Microsoft.AspNetCore.Mvc.ActionResult Index()
         {
             return View();
         }
